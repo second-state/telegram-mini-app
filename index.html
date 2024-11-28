@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="src/telegram-web-app.js"></script>
+    <style>
+        #bot-place {
+            justify-content: space-around;
+        }
+
+        .header {
+            padding: 2.5vw 5vw;
+        }
+
+        .header img {
+            height: 7.5vw;
+        }
+
+        @media (max-width: 760px) {
+            .header {
+                padding: 1vw 2vw;
+            }
+
+            .header img {
+                height: 5vw;
+            }
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #8C6CE3;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #7857d0;
+        }
+
+    </style>
+</head>
+<body style="background-color: black;margin: 0;">
+<div class="header" style="background-color: rgb(28 31 33);">
+    <img src="img/logo.png"/>
+</div>
+<div id="bot-place" style="display: flex;flex-wrap: wrap;width: 100%;margin-top: 2vw;">
+</div>
+<script>
+    // Init TWA
+    Telegram.WebApp.ready();
+
+    const botPlace = document.getElementById("bot-place");
+
+    let botList = [
+        {
+            name: "Lily",
+            desc: "Slender, sharp features, quiet strength, short hair.",
+            number: "23576",
+            imgLink: "/img/woman1.png",
+            botLink: "BotFather"
+        }, {
+            name: "Lily",
+            desc: "Slender, sharp features, quiet strength, short hair.",
+            number: "41943",
+            imgLink: "/img/woman2.png",
+            botLink: "flows_network_gpt_bot"
+        }, {
+            name: "Lily",
+            desc: "Slender, sharp features, quiet strength, short hair.",
+            number: "352",
+            imgLink: "/img/woman3.png",
+            botLink: "silicon_dream_bot"
+        },  {
+            name: "Jack",
+            desc: "Handsome, athletic, chiseled features, commanding presence.",
+            number: "8690",
+            imgLink: "/img/man1.png",
+            botLink: "JYC_Chat_Bot"
+        },  {
+            name: "Ethan",
+            desc: "Youthful, rugged, bright-eyed, charming, workwear style.",
+            number: "39251",
+            imgLink: "/img/man2.png",
+            botLink: "Stickerdownloadbot"
+        }
+    ]
+
+    let screenWidth = screen.width;
+
+    botList.forEach(bot=>{
+        const botComponent = document.createElement("bot-component");
+        botComponent.name = bot.name;
+        botComponent.desc = bot.desc;
+        botComponent.chatNumber = formatNumber(bot.number);
+        botComponent.imgUrl = bot.imgLink;
+        botComponent.botLink = bot.botLink;
+        console.log(screenWidth)
+        if(screenWidth > 760){
+            botComponent.isMobile = false;
+            botComponent.style.width = "18vw";
+        }else {
+            botComponent.isMobile = true;
+            botComponent.style.width = "46vw";
+        }
+        botPlace.append(botComponent)
+    })
+
+    function formatNumber(num) {
+        num = parseInt(num)
+        if (num < 1000) {
+            return num.toString(); // 小于1000的数字不做处理
+        }
+
+        const suffixes = ["", "K", "M", "B", "T"];
+        let suffixIndex = 0;
+        let formattedNumber = num;
+
+        // 根据数字大小确定应该使用哪个后缀（K、M、B等）
+        while (formattedNumber >= 1000 && suffixIndex < suffixes.length - 1) {
+            formattedNumber /= 1000;
+            suffixIndex++;
+        }
+
+        // 保留1位小数，并拼接后缀
+        return formattedNumber.toFixed(1) + suffixes[suffixIndex];
+    }
+</script>
+<script src="/component/botImage.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/eruda"></script>
+<script>eruda.init();</script>
+</body>
+</html>
